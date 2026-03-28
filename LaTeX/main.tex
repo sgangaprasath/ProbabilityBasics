@@ -1,0 +1,215 @@
+\documentclass[12pt]{article}
+%\usepackage[sort&compress,comma,numbers,round]{natbib}
+\usepackage{graphicx}
+\usepackage{bm}
+\usepackage[hidelinks=true]{hyperref} 
+\usepackage{xcolor}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{float, bigints}
+\usepackage{amssymb,graphicx,fullpage}
+\usepackage{mathrsfs}
+\usepackage{bm}
+\usepackage[hidelinks=true]{hyperref} 
+\usepackage{mathrsfs, amsmath}
+\usepackage{amsbsy,setspace}
+\usepackage{authblk}
+
+\usepackage[most]{tcolorbox}
+\usepackage{comment}
+\tcbuselibrary{theorems}
+
+\newtcbtheorem[]{mytheo}{}%
+{colback=gray!5,colframe=gray!35!black,fonttitle=\bfseries}{th}
+
+\renewcommand\Affilfont{\itshape\small}
+%\definecolor{greenish}{rgb}{0.13,0.58,0.16}
+\definecolor{greenish}{RGB}{141,198,63}
+\definecolor{reddish}{RGB}{239,65,54}
+\definecolor{blueish}{RGB}{28,117,188}
+
+\hypersetup{
+colorlinks   = true, %Colours links instead of ugly boxes
+urlcolor     = blueish, %Colour for external hyperlinks
+linkcolor    = magenta, %Colour of internal links
+citecolor   =  greenish%Colour of citations
+}
+
+\def\d{\mathrm{d}}
+\def\e{\mathrm{e}}
+\def\hp{\hat{p}}
+\def\E{\mathbb{E}}
+\def\eh{\hat{\mathbf{e}}}
+\def\et{\tilde{\mathbf{e}}}
+\def\a{\mathbf{a}}
+\def\b{\mathbf{b}}
+\def\c{\mathbf{c}}
+\def\v{\mathbf{v}}
+\def\p{\mathbf{p}}
+\def\q{\mathbf{q}}
+\def\p{\mathbf{a}}
+\def\F{\mathbb{F}}
+\def\B{\mathbb{B}}
+\def\A{\mathbf{A}}
+\def\C{\mathbb{C}}
+\def\R{\mathbb{R}}
+\def\J{\mathcal{J}}
+\def\T{\dagger}
+\def\fh{\hat{f}}
+\def\N{\mathcal{N}}
+\def\var{\mathrm{Var}}
+\def\Z{\mathbb{Z}}
+\def\grad{\nabla}
+\def\P{\mathbb{P}}
+\def\D{\mathbb{D}}
+\def\phih{\hat{\phi}}
+\def\alpha{R}
+\def\q{Q}
+\def\ss{\mathrm{ss}}
+\def\sgp#1{\textcolor{red}{#1}}
+
+\title{Probability Basics}
+\author{S Ganga Prasath\thanks{\href{mailto:sgangaprasath@smail.iitm.ac.in}{sgangaprasath@smail.iitm.ac.in}}}
+\date{}
+
+\begin{document}
+
+\maketitle
+\begin{singlespace}
+
+\section{Classic distributions}
+\begin{itemize}
+    \item \textbf{Gaussian distribution}: If $X \sim \mathcal{N}(\mu, \sigma^2)$, then the probability density function (pdf) of $X$ is given by:
+    \[
+    f_X(x) = \frac{1}{\sqrt{2\pi\sigma^2}} \exp\left(-\frac{(x - \mu)^2}{2\sigma^2}\right)
+    \]
+    The Gaussian distribution is symmetric around its mean $\mu$ and has a bell-shaped curve. It is widely used in statistics and machine learning due to the Central Limit Theorem.
+
+    \item \textbf{Bernoulli distribution}: If $X \sim \text{Bernoulli}(p)$, then the probability mass function (pmf) of $X$ is given by:
+    \[
+    P(X = x) = p^x (1-p)^{1-x} \quad \text{for } x = 0, 1
+    \]
+    The Bernoulli distribution models a binary outcome, where $p$ is the probability of success (i.e., $X=1$).
+
+    \item \textbf{Binomial distribution}: If $X \sim \text{Binomial}(n, p)$, then the pmf of $X$ is given by:
+    \[
+    P(X = k) = \binom{n}{k} p^k (1-p)^{n-k} \quad \text{for } k = 0, 1, ..., n
+    \]
+    The Binomial distribution models the number of successes in $n$ independent Bernoulli trials with success probability $p$.
+
+    \item \textbf{Poisson distribution}: If $X \sim \text{Poisson}(\lambda)$, then the pmf of $X$ is given by:
+    \[
+    P(X = k) = e^{-\lambda} \frac{\lambda^k}{k!} \quad \text{for } k = 0, 1, 2, ...
+    \]
+    The Poisson distribution models the number of events occurring in a fixed interval of time or space when events occur with a known constant mean rate $\lambda$ and independently of the time since the last event.
+\end{itemize}
+\section{Useful properties of distributions and random variables}
+\begin{itemize}
+    \item \textbf{Moment generating function:} The moment generating function (MGF) of a random variable $X$ is defined as $M_X(t) = \mathbb{E}[e^{tX}]$. It can be used to derive moments and other properties of the distribution. Here $t$ is a real number, and the MGF exists for values of $t$ in an interval around 0 where the expectation is finite. The n-th moment of $X$ can be obtained by taking the n-th derivative of the MGF at $t=0$:
+    \[
+    \mathbb{E}[X^n] = M_X^{(n)}(0).
+    \]
+    \item Example: For a Gaussian random variable $X \sim \mathcal{N}(\mu, \sigma^2)$, the MGF is given by:
+    \[
+    M_X(t) = \exp\left(\mu t + \frac{1}{2} \sigma^2 t^2\right).
+    \]
+    We can derive this expression by evaluating the expectation:
+    \[
+    M_X(t) = \mathbb{E}[e^{tX}] = \int_{-\infty}^{\infty} e^{tx} f_X(x) \,dx = \int_{-\infty}^{\infty} e^{tx} \frac{1}{\sqrt{2\pi\sigma^2}} \exp\left(-\frac{(x - \mu)^2}{2\sigma^2}\right) dx.
+    \]
+    The MGF can be used to derive the mean and variance of $X$ by taking derivatives:
+    \[
+    \mathbb{E}[X] = M_X'(0) = \mu, \quad \text{Var}(X) = M_X''(0) - (M_X'(0))^2 = \sigma^2.
+    \]
+    For a Bernoulli random variable $X \sim \text{Bernoulli}(p)$, the MGF is given by:
+    \[  M_X(t) = \mathbb{E}[e^{tX}] = p e^t + (1-p) e^0 = p e^t + (1-p). \]
+    We can derive the mean and variance of $X$ using the MGF:
+    \[
+    \mathbb{E}[X] = M_X'(0) = p, \quad \text{Var}(X) = M_X''(0) - (M_X'(0))^2 = p(1-p).
+    \]
+    \item \textbf{Cumulant generating function:} The cumulant generating function (CGF) of a random variable $X$ is defined as $K_X(t) = \log M_X(t)$. The CGF can be used to derive cumulants, which are related to moments but have properties that make them useful for certain applications, such as in the study of distributions and their convergence. The cumulant is related to the moments of a random variable, and the $n$-th cumulant can be obtained by taking the $n$-th derivative of the CGF at $t=0$:
+    \[
+    \kappa_n = K_X^{(n)}(0).
+    \] The first cumulant is the mean, the second cumulant is the variance, and higher-order cumulants provide information about the shape of the distribution (e.g., skewness and kurtosis).\\
+    The reason for using cumulants instead of moments is that cumulants have properties that make them more suitable for certain applications, such as in the study of distributions and their convergence. Further, the reason $K_X(t) = \log M_X(t)$ is that the logarithm of the MGF transforms the product of MGFs (which corresponds to the sum of independent random variables) into a sum of CGFs, making it easier to analyze the behavior of sums of random variables. Additionally, the CGF can provide insights into the tail behavior and other properties of the distribution that may not be as easily accessible through moments alone.
+    \item  Example: For a Gaussian random variable $X \sim \mathcal{N}(\mu, \sigma^2)$, the CGF is given by:
+    \[
+    K_X(t) = \log M_X(t) = \mu t + \frac{1}{2} \sigma^2 t^2.
+    \] The first cumulant is $\kappa_1 = K_X'(0) = \mu$, and the second cumulant is $\kappa_2 = K_X''(0) = \sigma^2$. For a Bernoulli random variable $X \sim \text{Bernoulli}(p)$, the CGF is given by:
+    \[
+    K_X(t) = \log M_X(t) = \log(p e^t + (1-p)).
+    \] The first cumulant is $\kappa_1 = K_X'(0) = p$, and the second cumulant is $\kappa_2 = K_X''(0) = p(1-p)$.
+    \item \textbf{Characteristic function:} The characteristic function of a random variable $X$ is defined as $\phi_X(t) = \mathbb{E}[e^{itX}]$. It can be used to derive moments and other properties of the distribution, and it is particularly useful for studying the distribution of sums of independent random variables.
+    \item The characteristic function and the moment generating function are related by $M_X(t) = \phi_X(-it)$.
+\end{itemize}
+
+\section{Stable distributions}
+A stable distribution is a type of probability distribution that has the property of stability under convolution. This means that if you take two independent random variables that follow a stable distribution and add them together, the resulting random variable will also follow a stable distribution (up to location and scale parameters). Stable distributions are characterized by four parameters: the stability parameter $\alpha$, the skewness parameter $\beta$, the scale parameter $\gamma$, and the location parameter $\delta$. The stability parameter $\alpha$ determines the tail behavior of the distribution, with smaller values indicating heavier tails. The skewness parameter $\beta$ controls the asymmetry of the distribution, while the scale parameter $\gamma$ affects the spread of the distribution, and the location parameter $\delta$ shifts the distribution along the real line. Stable distributions include well-known distributions such as the Gaussian distribution (when $\alpha=2$ and $\beta=0$), Levy distribution (when $\alpha=1.5$ and $\beta=0$) and the Cauchy distribution (when $\alpha=1$ and $\beta=0$). They are used in various fields, including finance, physics, and signal processing, to model phenomena with heavy-tailed behavior or skewed distributions.
+
+Let us consider a random variable $X$ that follows Gaussian distribution with mean $\mu$ and variance $\sigma^2$. The probability density function (pdf) of $X$ is given by:
+\[
+f_X(x) = \frac{1}{\sqrt{2\pi\sigma^2}} \exp\left(-\frac{(x - \mu)^2}{2\sigma^2}\right).
+\]
+Now, consider sum of $n$ independent and identically distributed (i.i.d.) random variables $X_1, X_2, ..., X_n$, each following the same Gaussian distribution as $X$. The sum of these random variables is given by:
+\[
+S_n = X_1 + X_2 + ... + X_n.
+\]
+The sum of $n$ independent Gaussian random variables also follows a Gaussian distribution, with mean $n\mu$ and variance $n\sigma^2$. We can derive this result using the properties of the moment generating function (MGF). The MGF of a Gaussian random variable $X$ is given by:
+\[
+M_X(t) = \exp\left(\mu t + \frac{1}{2} \sigma^2 t^2\right).
+\]
+Since $X_1, X_2, ..., X_n$ are independent and identically distributed, the MGF of their sum $S_n$ is the product of their individual MGFs:
+\[
+M_{S_n}(t) = [M_X(t)]^n = \exp\left(n\mu t + \frac{1}{2} n\sigma^2 t^2\right).
+\]
+This is the MGF of a Gaussian distribution with mean $n\mu$ and variance $n\sigma^2$. Therefore, we can conclude that the sum of $n$ independent Gaussian random variables follows a Gaussian distribution with mean $n\mu$ and variance $n\sigma^2$.
+
+Now consider a random variable $Y$ that follows a Levy distribution with location parameter $\delta$ and scale parameter $\gamma$. The probability density function (pdf) of $Y$ is given by:
+\[
+f_Y(y) = \sqrt{\frac{\gamma}{2\pi}} \frac{\exp\left(-\frac{\gamma}{2(y-\delta)}\right)}{(y-\delta)^{3/2}} \quad \text{for } y > \delta.
+\]
+Now, consider the sum of $n$ independent and identically distributed (i.i.d.) random variables $Y_1, Y_2, ..., Y_n$, each following the same Levy distribution as $Y$. The sum of these random variables is given by:
+\[
+S_n = Y_1 + Y_2 + ... + Y_n.
+\]
+The sum of $n$ independent Levy random variables also follows a Levy distribution, with location parameter $n\delta$ and scale parameter $n\gamma$. We can derive this result using the properties of the characteristic function. The characteristic function of a Levy random variable $Y$ can be calculated as follows:
+\[
+\phi_Y(t) = \mathbb{E}[e^{itY}] = \int_{\delta}^{\infty} e^{ity} f_Y(y) \,dy = \int_{\delta}^{\infty} e^{ity} \sqrt{\frac{\gamma}{2\pi}} \frac{\exp\left(-\frac{\gamma}{2(y-\delta)}\right)}{(y-\delta)^{3/2}} \,dy.
+\]
+We can simplify this expression by making the substitution $u = y - \delta$, which gives us:
+\[
+\phi_Y(t) = e^{i\delta t} \int_{0}^{\infty} e^{itu} \sqrt{\frac{\gamma}{2\pi}} \frac{\exp\left(-\frac{\gamma}{2u}\right)}{u^{3/2}} \,du.
+\]
+Next step is to evaluate the integral:
+\[
+\int_{0}^{\infty} e^{itu} \sqrt{\frac{\gamma}{2\pi}} \frac{\exp\left(-\frac{\gamma}{2u}\right)}{u^{3/2}} \,du.
+\]
+This can be done by recognizing that the integrand can be simplified to a form that resembles the characteristic function of a stable distribution. We can simplify this expression further by noting that the integral can be expressed in terms of the Gamma function. We can write the integral as:
+\[
+\int_{0}^{\infty} e^{itu} \sqrt{\frac{\gamma}{2\pi}} \frac{\exp\left(-\frac{\gamma}{2u}\right)}{u^{3/2}} \,du = \sqrt{\frac{\gamma}{2\pi}} \int_{0}^{\infty} u^{-3/2} \exp\left(-\frac{\gamma}{2u} + itu\right) \,du.
+\]
+We can simplify the integral by making the substitution $v = \frac{\gamma}{2u}$, which gives us:
+\[
+\int_{0}^{\infty} e^{itu} \sqrt{\frac{\gamma}{2\pi}} \frac{\exp\left(-\frac{\gamma}{2u}\right)}{u^{3/2}} \,du = \sqrt{\frac{\gamma}{2\pi}} \int_{0}^{\infty} v^{-3/2} \exp\left(-v + it \frac{2}{\gamma} v^{-1}\right) \frac{2}{\gamma} v^{-2} \,dv.
+\]
+After this substitution, we can simplify the expression to:
+\[
+\int_{0}^{\infty} e^{itu} \sqrt{\frac{\gamma}{2\pi}} \frac{\exp\left(-\frac{\gamma}{2u}\right)}{u^{3/2}} \,du = \sqrt{\frac{\gamma}{2\pi}} \frac{2}{\gamma} \int_{0}^{\infty} v^{-7/2} \exp\left(-v + it \frac{2}{\gamma} v^{-1}\right) \,dv.
+\]
+Then, we can evaluate this integral using the properties of the Gamma function and the fact that it converges for certain values of $t$. This can be written as:
+\[\int_{0}^{\infty} e^{itu} \sqrt{\frac{\gamma}{2\pi}} \frac{\exp\left(-\frac{\gamma}{2u}\right)}{u^{3/2}} \,du = \sqrt{\frac{\gamma}{2\pi}} \frac{2}{\gamma} \Gamma\left(-\frac{1}{2}\right) \left(1 - it \frac{2}{\gamma}\right)^{1/2}.\]
+From here, we can write 
+
+This integral can be evaluated using the properties of the Levy distribution, and it can be shown that the characteristic function of a Levy random variable is given by:
+\[
+\phi_Y(t) = \exp\left(i\delta t - \gamma |t|^{1/2}\right).
+\]
+Since $Y_1, Y_2, ..., Y_n$ are independent and identically distributed, the characteristic function of their sum $S_n$ is the product of their individual characteristic functions:
+\[
+\phi_{S_n}(t) = [\phi_Y(t)]^n = \exp\left(i n\delta t - n\gamma |t|^{1/2}\right).
+\]
+This is the characteristic function of a Levy distribution with location parameter $n\delta$ and scale parameter $n\gamma$. Therefore, we can conclude that the sum of $n$ independent Levy random variables follows a Levy distribution with location parameter $n\delta$ and scale parameter $n\gamma$.
+
+\end{singlespace}
+\end{document}
+
