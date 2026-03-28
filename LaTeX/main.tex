@@ -146,6 +146,7 @@ citecolor   =  greenish%Colour of citations
 \section{Stable distributions}
 A stable distribution is a type of probability distribution that has the property of stability under convolution. This means that if you take two independent random variables that follow a stable distribution and add them together, the resulting random variable will also follow a stable distribution (up to location and scale parameters). Stable distributions are characterized by four parameters: the stability parameter $\alpha$, the skewness parameter $\beta$, the scale parameter $\gamma$, and the location parameter $\delta$. The stability parameter $\alpha$ determines the tail behavior of the distribution, with smaller values indicating heavier tails. The skewness parameter $\beta$ controls the asymmetry of the distribution, while the scale parameter $\gamma$ affects the spread of the distribution, and the location parameter $\delta$ shifts the distribution along the real line. Stable distributions include well-known distributions such as the Gaussian distribution (when $\alpha=2$ and $\beta=0$), Levy distribution (when $\alpha=1.5$ and $\beta=0$) and the Cauchy distribution (when $\alpha=1$ and $\beta=0$). They are used in various fields, including finance, physics, and signal processing, to model phenomena with heavy-tailed behavior or skewed distributions.
 
+\subsection{Gaussian distribution}
 Let us consider a random variable $X$ that follows Gaussian distribution with mean $\mu$ and variance $\sigma^2$. The probability density function (pdf) of $X$ is given by:
 \[
 f_X(x) = \frac{1}{\sqrt{2\pi\sigma^2}} \exp\left(-\frac{(x - \mu)^2}{2\sigma^2}\right).
@@ -164,11 +165,33 @@ M_{S_n}(t) = [M_X(t)]^n = \exp\left(n\mu t + \frac{1}{2} n\sigma^2 t^2\right).
 \]
 This is the MGF of a Gaussian distribution with mean $n\mu$ and variance $n\sigma^2$. Therefore, we can conclude that the sum of $n$ independent Gaussian random variables follows a Gaussian distribution with mean $n\mu$ and variance $n\sigma^2$.
 
-Now consider a random variable $Y$ that follows a Levy distribution with location parameter $\delta$ and scale parameter $\gamma$. The probability density function (pdf) of $Y$ is given by:
+\subsection{Levy distribution}
+The Levy distribution, denoted as $L(\delta, \gamma)$, is a continuous probability distribution with several interesting properties. For a random variable $Y \sim \text{Levy}(\delta, \gamma)$, the PDF is:
+\begin{equation}
+f(y; \delta, \gamma) = \sqrt{\frac{\gamma}{2\pi}} \frac{\exp\left( -\frac{\gamma}{2(y-\delta)} \right)}{(y-\delta)^{3/2}}, \quad y > \delta
+\end{equation}
+where $\delta$ is the location parameter and $\gamma$ is the scale parameter.
+The CDF is expressed in terms of the complementary error function ($\text{erfc}$):
+\begin{equation}
+F(y; \delta, \gamma) = \text{erfc}\left( \sqrt{\frac{\gamma}{2(y-\delta)}} \right)
+\end{equation}
+The Levy distribution is characterized by ``heavy tails,'' specifically:
+\begin{itemize}
+    \item \textbf{Mean:} $\mathbb{E}[Y] = \infty$. The integral for the first moment diverges.
+    \item \textbf{Variance:} $\text{Var}(Y) = \infty$.
+    \item \textbf{Tail Behavior:} As $y \to \infty$, the PDF decays as $f(y) \sim y^{-3/2}$. This power-law decay is much slower than the exponential decay of a Normal distribution.
+\end{itemize}
+The Levy distribution is strictly stable. If $Y_1, Y_2, \dots, Y_n$ are i.i.d. Levy random variables with parameters $(\delta, \gamma)$, then their sum $S_n$ follows:
+\begin{equation}
+S_n = \sum_{j=1}^n Y_j \sim \text{Levy}(n\delta, n\gamma)
+\end{equation}
+This implies that the shape of the distribution is preserved under convolution, provided the location and scale parameters are adjusted.
+
+Let us now consider a random variable $Y$ that follows a Levy distribution with location parameter $\delta$ and scale parameter $\gamma$. The probability density function (pdf) of $Y$ is given by:
 \[
 f_Y(y) = \sqrt{\frac{\gamma}{2\pi}} \frac{\exp\left(-\frac{\gamma}{2(y-\delta)}\right)}{(y-\delta)^{3/2}} \quad \text{for } y > \delta.
 \]
-Now, consider the sum of $n$ independent and identically distributed (i.i.d.) random variables $Y_1, Y_2, ..., Y_n$, each following the same Levy distribution as $Y$. The sum of these random variables is given by:
+Consider the sum of $n$ independent and identically distributed (i.i.d.) random variables $Y_1, Y_2, ..., Y_n$, each following the same Levy distribution as $Y$. The sum of these random variables is given by:
 \[
 S_n = Y_1 + Y_2 + ... + Y_n.
 \]
@@ -180,27 +203,76 @@ We can simplify this expression by making the substitution $u = y - \delta$, whi
 \[
 \phi_Y(t) = e^{i\delta t} \int_{0}^{\infty} e^{itu} \sqrt{\frac{\gamma}{2\pi}} \frac{\exp\left(-\frac{\gamma}{2u}\right)}{u^{3/2}} \,du.
 \]
-Next step is to evaluate the integral:
-\[
-\int_{0}^{\infty} e^{itu} \sqrt{\frac{\gamma}{2\pi}} \frac{\exp\left(-\frac{\gamma}{2u}\right)}{u^{3/2}} \,du.
-\]
-This can be done by recognizing that the integrand can be simplified to a form that resembles the characteristic function of a stable distribution. We can simplify this expression further by noting that the integral can be expressed in terms of the Gamma function. We can write the integral as:
+ We can simplify this expression further to get:
 \[
 \int_{0}^{\infty} e^{itu} \sqrt{\frac{\gamma}{2\pi}} \frac{\exp\left(-\frac{\gamma}{2u}\right)}{u^{3/2}} \,du = \sqrt{\frac{\gamma}{2\pi}} \int_{0}^{\infty} u^{-3/2} \exp\left(-\frac{\gamma}{2u} + itu\right) \,du.
 \]
-We can simplify the integral by making the substitution $v = \frac{\gamma}{2u}$, which gives us:
-\[
-\int_{0}^{\infty} e^{itu} \sqrt{\frac{\gamma}{2\pi}} \frac{\exp\left(-\frac{\gamma}{2u}\right)}{u^{3/2}} \,du = \sqrt{\frac{\gamma}{2\pi}} \int_{0}^{\infty} v^{-3/2} \exp\left(-v + it \frac{2}{\gamma} v^{-1}\right) \frac{2}{\gamma} v^{-2} \,dv.
-\]
-After this substitution, we can simplify the expression to:
-\[
-\int_{0}^{\infty} e^{itu} \sqrt{\frac{\gamma}{2\pi}} \frac{\exp\left(-\frac{\gamma}{2u}\right)}{u^{3/2}} \,du = \sqrt{\frac{\gamma}{2\pi}} \frac{2}{\gamma} \int_{0}^{\infty} v^{-7/2} \exp\left(-v + it \frac{2}{\gamma} v^{-1}\right) \,dv.
-\]
-Then, we can evaluate this integral using the properties of the Gamma function and the fact that it converges for certain values of $t$. This can be written as:
-\[\int_{0}^{\infty} e^{itu} \sqrt{\frac{\gamma}{2\pi}} \frac{\exp\left(-\frac{\gamma}{2u}\right)}{u^{3/2}} \,du = \sqrt{\frac{\gamma}{2\pi}} \frac{2}{\gamma} \Gamma\left(-\frac{1}{2}\right) \left(1 - it \frac{2}{\gamma}\right)^{1/2}.\]
-From here, we can write 
+To evaluate the integral:
+\begin{equation}
+I = \int_{0}^{\infty} u^{-3/2} \exp\left(-\frac{a}{u} - bu\right) du, \quad a, b > 0,
+\end{equation}
+let us substitute $u = x^2$, which implies $du = 2x \, dx$. Substituting these into the integral:
+\begin{align}
+I &= \int_{0}^{\infty} (x^2)^{-3/2} \exp\left(-\frac{a}{x^2} - bx^2\right) (2x) \, dx = 2 \int_{0}^{\infty} \frac{1}{x^2} \exp\left(-\frac{a}{x^2} - bx^2\right) dx.
+\end{align}
+We rewrite the argument of the exponential by completing the square:
+\begin{equation}
+-\left(\frac{a}{x^2} + bx^2\right) = -\left(\frac{\sqrt{a}}{x} - x\sqrt{b}\right)^2 - 2\sqrt{ab}.
+\end{equation}
+Substituting this back into the integral:
+\begin{equation}
+I = 2e^{-2\sqrt{ab}} \int_{0}^{\infty} \frac{1}{x^2} \exp\left[ -\left(\frac{\sqrt{a}}{x} - x\sqrt{b}\right)^2 \right] dx.
+\end{equation}
+We wish to evaluate the integral:
+\begin{equation}
+J = \int_{0}^{\infty} \frac{1}{x^2} \exp\left[ -\left(x\sqrt{b} - \frac{\sqrt{a}}{x}\right)^2 \right] dx
+\end{equation}
+Let $z = \frac{\sqrt{a}}{x}$, which implies $x = \frac{\sqrt{a}}{z}$ and $dx = -\frac{\sqrt{a}}{z^2} dz$.
+As $x \to 0$, $z \to \infty$; as $x \to \infty$, $z \to 0$. Substituting these into $J$:
+\begin{equation}
+J = \frac{1}{\sqrt{a}} \int_{0}^{\infty} \exp\left[ -\left(z - \frac{\sqrt{ab}}{z}\right)^2 \right] dz
+\end{equation}
+Note that the exponent is symmetric. We use the identity for any integrable function $f$:
+\begin{equation}
+\int_{0}^{\infty} f\left( z - \frac{k}{z} \right) dz = \int_{0}^{\infty} f(v) dv \quad \text{where } k = \sqrt{ab}
+\end{equation}
+Applying this to our integral where $f(v) = e^{-v^2}$:
+\begin{equation}
+\int_{0}^{\infty} \exp\left[ -\left(z - \frac{\sqrt{ab}}{z}\right)^2 \right] dz = \int_{0}^{\infty} e^{-v^2} dv
+\end{equation}
+We know the standard Gaussian integral $\int_{0}^{\infty} e^{-v^2} dv = \frac{\sqrt{\pi}}{2}$.
 
-This integral can be evaluated using the properties of the Levy distribution, and it can be shown that the characteristic function of a Levy random variable is given by:
+Substituting the Gaussian result back into our expression for $J$:
+\begin{equation}
+J = \frac{1}{\sqrt{a}} \left( \frac{\sqrt{\pi}}{2} \right) = \sqrt{\frac{\pi}{4a}}
+\end{equation}
+
+Now substitute $J$ back into the full expression for $I$ from Step 2:
+\begin{align}
+I &= 2e^{-2\sqrt{ab}} J \\
+I &= 2e^{-2\sqrt{ab}} \sqrt{\frac{\pi}{4a}} \\
+I &= \sqrt{\frac{\pi}{a}} e^{-2\sqrt{ab}}
+\end{align}
+
+Let $z = x\sqrt{b} - \frac{\sqrt{a}}{x}$. To handle the differential, we use the substitution $y = \frac{\sqrt{a}}{x\sqrt{b}}$, which shows that:
+\begin{equation}
+\int_{0}^{\infty} \frac{1}{x^2} \exp\left[ -\left(\frac{\sqrt{a}}{x} - x\sqrt{b}\right)^2 \right] dx = \sqrt{\frac{\pi}{4a}}
+\end{equation}
+More formally, using the identity for integrals of the form $f(x\sqrt{b} - \sqrt{a}/x)$, the integral evaluates as:
+\begin{equation}
+I = 2e^{-2\sqrt{ab}} \left( \frac{1}{2} \sqrt{\frac{\pi}{a}} \right)
+\end{equation}
+The closed-form solution is:
+\begin{equation}
+\int_{0}^{\infty} u^{-3/2} \exp\left(-\frac{a}{u} - bu\right) du = \sqrt{\frac{\pi}{a}} e^{-2\sqrt{ab}}
+\end{equation}
+Given the constant $\sqrt{\frac{\gamma}{2\pi}}$ and parameters $a = \frac{\gamma}{2}, b = -it$:
+\begin{align}
+\phi_Y(t) &= e^{i\delta t} \sqrt{\frac{\gamma}{2\pi}} \left( \sqrt{\frac{\pi}{\gamma/2}} \exp\left(-2\sqrt{\frac{\gamma}{2}(-it)}\right) \right) \\
+\phi_Y(t) &= e^{i\delta t} \sqrt{\frac{\gamma}{2\pi}} \sqrt{\frac{2\pi}{\gamma}} \exp\left(-\sqrt{-2i\gamma t}\right) \\
+\phi_Y(t) &= \exp\left(i\delta t - \sqrt{-2i\gamma t}\right)
+\end{align}
+Ultimately we get the characteristic function of a Levy random variable as:
 \[
 \phi_Y(t) = \exp\left(i\delta t - \gamma |t|^{1/2}\right).
 \]
@@ -210,6 +282,41 @@ Since $Y_1, Y_2, ..., Y_n$ are independent and identically distributed, the char
 \]
 This is the characteristic function of a Levy distribution with location parameter $n\delta$ and scale parameter $n\gamma$. Therefore, we can conclude that the sum of $n$ independent Levy random variables follows a Levy distribution with location parameter $n\delta$ and scale parameter $n\gamma$.
 
+\section{Generalized Central Limit Theorem}
+The Generalized Central Limit Theorem (GCLT) extends the classic Central Limit Theorem to cases where the underlying distribution of the random variables has infinite variance. Specifically, it states that if we have a sequence of independent and identically distributed (i.i.d.) random variables with heavy-tailed distributions (i.e., distributions that decay slower than a Gaussian), then the properly normalized sum of these random variables converges in distribution to a stable law, which may not be Gaussian.
+
+Let $Y_1, Y_2, \dots, Y_n$ be i.i.d. Levy random variables with location $\delta = 0$ and scale $\gamma$. We have already derived the characteristic function:
+\begin{equation}
+\phi_Y(t) = \exp\left( -\sqrt{-2i\gamma t} \right)
+\end{equation}
+We define the normalized sum $Z_n = \frac{1}{n^2} \sum_{j=1}^n Y_j$. The characteristic function of $Z_n$ is:
+\begin{align}
+\phi_{Z_n}(t) &= \left[ \phi_Y\left( \frac{t}{n^2} \right) \right]^n \\
+&= \left[ \exp\left( -\sqrt{-2i\gamma \frac{t}{n^2}} \right) \right]^n \\
+&= \exp\left( -n \frac{\sqrt{-2i\gamma t}}{n} \right) \\
+&= \exp\left( -\sqrt{-2i\gamma t} \right)
+\end{align}
+Thus, for any $n$, $\phi_{Z_n}(t) = \phi_{Z_\infty}(t) = \exp\left( -\sqrt{-2i\gamma t} \right)$.
+
+To find the PDF $f_{Z_\infty}(z)$, we use the inversion formula:
+\begin{equation}
+f_{Z_\infty}(z) = \frac{1}{2\pi} \int_{-\infty}^{\infty} e^{-itz} \phi_{Z_\infty}(t) dt = \frac{1}{2\pi} \int_{-\infty}^{\infty} e^{-itz} e^{-\sqrt{-2i\gamma t}} dt
+\end{equation}
+
+This integral can be solved using a contour in the complex plane (Bromwich integral) or by recognizing it as a known Laplace transform pair. Let $s = -it$, then the integral takes the form of the inverse Laplace transform:
+\begin{equation}
+f_{Z_\infty}(z) = \mathcal{L}^{-1} \left\{ e^{-\sqrt{2\gamma s}} \right\}
+\end{equation}
+Using the standard transform pair $\mathcal{L}^{-1} \{ e^{-k\sqrt{s}} \} = \frac{k}{2\sqrt{\pi z^3}} \exp\left(-\frac{k^2}{4z}\right)$ with $k = \sqrt{2\gamma}$:
+\begin{align}
+f_{Z_\infty}(z) &= \frac{\sqrt{2\gamma}}{2\sqrt{\pi z^3}} \exp\left( -\frac{(\sqrt{2\gamma})^2}{4z} \right) \\
+f_{Z_\infty}(z) &= \frac{\sqrt{2\gamma}}{2\sqrt{\pi} z^{3/2}} \exp\left( -\frac{2\gamma}{4z} \right)
+\end{align}
+
+Simplifying the constants:
+\begin{equation}
+f_{Z_\infty}(z) = \sqrt{\frac{\gamma}{2\pi}} \frac{1}{z^{3/2}} \exp\left( -\frac{\gamma}{2z} \right), \quad z > 0
+\end{equation}
+This confirms that the limit distribution $Z_\infty$ is identical in form to the original Levy distribution, proving that the Levy distribution is the ``attractor'' for sums of variables with $\alpha=1/2$.
 \end{singlespace}
 \end{document}
-
