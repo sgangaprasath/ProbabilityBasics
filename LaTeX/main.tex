@@ -312,11 +312,56 @@ Using the standard transform pair $\mathcal{L}^{-1} \{ e^{-k\sqrt{s}} \} = \frac
 f_{Z_\infty}(z) &= \frac{\sqrt{2\gamma}}{2\sqrt{\pi z^3}} \exp\left( -\frac{(\sqrt{2\gamma})^2}{4z} \right) \\
 f_{Z_\infty}(z) &= \frac{\sqrt{2\gamma}}{2\sqrt{\pi} z^{3/2}} \exp\left( -\frac{2\gamma}{4z} \right)
 \end{align}
-
 Simplifying the constants:
 \begin{equation}
 f_{Z_\infty}(z) = \sqrt{\frac{\gamma}{2\pi}} \frac{1}{z^{3/2}} \exp\left( -\frac{\gamma}{2z} \right), \quad z > 0
 \end{equation}
 This confirms that the limit distribution $Z_\infty$ is identical in form to the original Levy distribution, proving that the Levy distribution is the ``attractor'' for sums of variables with $\alpha=1/2$.
+
+\section{Path integral}
+In this section we introduce the concept of path integrals, which are a powerful tool in both physics and probability theory for analyzing systems by integrating over all possible paths or trajectories that the system can take. The path integral formulation allows us to compute probabilities and expectations by summing over all possible configurations of a system, weighted by an appropriate action or energy functional.
+
+Let us consider a stochastic process $X(t)$ defined on the interval $[0, T]$. The path integral formulation allows us to express the probability of a particular trajectory or path of the process as an integral over all possible paths. For example, if we want to compute the probability that the process follows a specific path $\gamma(t)$, we can write:
+\begin{equation}
+P(\gamma) = \int \mathcal{D}[X] \, e^{-S[X]} \delta(X(t) - \gamma(t))
+\end{equation}
+where $\mathcal{D}[X]$ denotes the integration over all paths $X(t)$, $S[X]$ is the action functional that assigns a weight to each path based on its properties, and $\delta$ is the Dirac delta function that ensures we are only considering paths that match the specified trajectory $\gamma(t)$. The action functional $S[X]$ typically encodes the dynamics of the system and can be derived from the underlying stochastic differential equations governing the process. The path integral formulation is particularly useful for analyzing systems with complex dynamics, such as those with non-linear interactions or those that exhibit phase transitions. It provides a framework for computing correlation functions, transition probabilities, and other quantities of interest by integrating over the space of all possible paths, allowing us to capture the full range of behaviors exhibited by the system.
+
+\subsection{Gaussian process}
+Before we delve into the path integral formulation for a general stochastic process, let us first consider the case of a Gaussian process. A Gaussian process is a collection of random variables, any finite number of which have a joint Gaussian distribution. It is fully characterized by its mean function $\mu(t)$ and covariance function $C(t, t')$. The probability density functional for a Gaussian process can be expressed as:
+\begin{equation}P[X] \propto \exp\left( -\frac{1}{2} \int_0^T dt \int_0^T dt' (X(t) - \mu(t)) C^{-1}(t, t') (X(t') - \mu(t')) \right)\end{equation}
+where $C^{-1}(t, t')$ is the inverse of the covariance function. This expression can be derived from the properties of Gaussian distributions and serves as a starting point for understanding how to construct the action functional for more general stochastic processes.
+
+In order to arrive at this general expression, let us assume a discrete sequence of random variables $X_1, X_2, ..., X_N$ that are sampled from i.i.d. Gaussian distribution with mean $0$ and variance $\sigma^2$. The joint probability density function for this sequence can be written as:
+\begin{equation}P(X_1, X_2, ..., X_N) = \prod_{i=1}^N \frac{1}{\sqrt{2\pi\sigma^2}} \exp\left( -\frac{X_i^2}{2\sigma^2} \right)\end{equation}
+This can be rewritten in matrix form as:
+\begin{equation}P(X) = \frac{1}{(2\pi\sigma^2)^{N/2}} \exp\left( -\frac{1}{2\sigma^2} X^T X \right)\end{equation}
+where $X$ is the column vector of random variables. In the limit as $N \to \infty$, this expression converges to the probability density functional for a Gaussian process. Let us consider a Gaussian process defined on the interval $[0, T]$ as a continuous limit of the discrete case. Assuming the process has mean function $\mu(t)$ and variance $\sigma^2$, we can express the probability density functional as:
+\begin{equation}P[X] \propto \exp\left( -\frac{1}{2\sigma^2} \int_0^T dt (X(t) - \mu(t))^2 \right)\end{equation}
+This expression captures the probability of observing a particular path $X(t)$ given the mean function $\mu(t)$ and variance $\sigma^2$.
+
+If we assume that the stochastic process $X(t)$ is governed by a Langevin equation of the form:
+\begin{equation}\frac{dX}{dt} = -\frac{\partial V(X)}{\partial X} + \eta(t)\end{equation}
+where $V(X)$ is a potential function and $\eta(t)$ is a Gaussian white noise with mean zero, $\langle \eta(t) \rangle = 0$, and correlation function $\langle\eta(t) \eta(t')\rangle = 2D \delta(t - t')$, we can derive the corresponding action functional $S[X]$ for the path integral formulation. The action functional can be expressed as:
+\begin{equation}S[X] = \int_0^T dt \left[ \frac{1}{4D} \left( \frac{dX}{dt} + \frac{\partial V(X)}{\partial X} \right)^2 \right]\end{equation}
+In order to derive this expression, we start from the Langevin equation and consider the probability of a particular path $X(t)$ given the noise $\eta(t)$. The probability density for the noise can be written as:
+\begin{equation}P[\eta] \propto \exp\left( -\frac{1}{4D} \int_0^T dt \, \eta(t)^2 \right)\end{equation}
+Since $\eta(t) = \frac{dX}{dt} + \frac{\partial V(X)}{\partial X}$, we can substitute this expression into the probability density to obtain:
+\begin{equation}P[X] \propto \exp\left( -\frac{1}{4D} \int_0^T dt \left( \frac{dX}{dt} + \frac{\partial V(X)}{\partial X} \right)^2 \right)\end{equation}
+This leads us to the action functional $S[X]$ as defined above.
+
+This action functional captures the dynamics of the stochastic process, where the first term represents the kinetic energy associated with the path, and the second term represents the potential energy landscape defined by $V(X)$. The path integral can then be used to compute various quantities of interest, such as the transition probability from an initial state $X(0) = x_0$ to a final state $X(T) = x_T$:
+\begin{equation}P(x_T, T | x_0, 0) = \int_{X(0)=x_0}^{X(T)=x_T} \mathcal{D}[X] \, e^{-S[X]}\end{equation}
+This expression allows us to compute the probability of transitioning between states in the presence of noise and potential landscapes, providing insights into the behavior of the system under stochastic dynamics. When $V(X) = 0$, the action functional simplifies to:
+\begin{equation}S[X] = \int_0^T dt \left[ \frac{1}{4D} \left( \frac{dX}{dt} \right)^2 \right]\end{equation}
+In this case, the path integral reduces to the well-known result for a free particle undergoing Brownian motion, where the transition probability is given by a Gaussian distribution:
+\begin{equation}P(x_T, T | x_0, 0) = \frac{1}{\sqrt{4\pi D T}} \exp\left( -\frac{(x_T - x_0)^2}{4D T} \right)\end{equation}
+This illustrates how the path integral formulation can be used to derive transition probabilities for stochastic processes, and how it can be applied to more complex systems by incorporating potential functions and interactions.
+
+When we consider harmonic potentials of the form $V(X) = \frac{1}{2} k X^2$, the action functional becomes:
+\begin{equation}S[X] = \int_0^T dt \left[ \frac{1}{4D} \left( \frac{dX}{dt} + kX \right)^2 \right]\end{equation}
+In this case, the path integral can be evaluated to yield the transition probability for an Ornstein-Uhlenbeck process, which describes a particle undergoing Brownian motion in a harmonic potential. The transition probability for this process is given by:
+\begin{equation}P(x_T, T | x_0, 0) = \sqrt{\frac{k}{2\pi D (1 - e^{-2kT})}} \exp\left( -\frac{k (x_T - x_0 e^{-kT})^2}{2D (1 - e^{-2kT})} \right)\end{equation}
+This result demonstrates how the path integral formulation can be used to derive transition probabilities for systems with specific potential landscapes, and how it can capture the effects of both noise and deterministic forces on the dynamics of the system.
 \end{singlespace}
 \end{document}
