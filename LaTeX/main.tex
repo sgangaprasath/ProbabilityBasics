@@ -240,20 +240,16 @@ Applying this to our integral where $f(v) = e^{-v^2}$:
 \begin{equation}
 \int_{0}^{\infty} \exp\left[ -\left(z - \frac{\sqrt{ab}}{z}\right)^2 \right] dz = \int_{0}^{\infty} e^{-v^2} dv
 \end{equation}
-We know the standard Gaussian integral $\int_{0}^{\infty} e^{-v^2} dv = \frac{\sqrt{\pi}}{2}$.
-
-Substituting the Gaussian result back into our expression for $J$:
+We know the standard Gaussian integral $\int_{0}^{\infty} e^{-v^2} dv = \frac{\sqrt{\pi}}{2}$. Substituting the Gaussian result back into our expression for $J$:
 \begin{equation}
 J = \frac{1}{\sqrt{a}} \left( \frac{\sqrt{\pi}}{2} \right) = \sqrt{\frac{\pi}{4a}}
 \end{equation}
-
-Now substitute $J$ back into the full expression for $I$ from Step 2:
+Now substitute $J$ back into the full expression for $I$ from Step 2 gives:
 \begin{align}
-I &= 2e^{-2\sqrt{ab}} J \\
-I &= 2e^{-2\sqrt{ab}} \sqrt{\frac{\pi}{4a}} \\
+% I &= 2e^{-2\sqrt{ab}} J \\
+% I &= 2e^{-2\sqrt{ab}} \sqrt{\frac{\pi}{4a}} \\
 I &= \sqrt{\frac{\pi}{a}} e^{-2\sqrt{ab}}
 \end{align}
-
 Let $z = x\sqrt{b} - \frac{\sqrt{a}}{x}$. To handle the differential, we use the substitution $y = \frac{\sqrt{a}}{x\sqrt{b}}$, which shows that:
 \begin{equation}
 \int_{0}^{\infty} \frac{1}{x^2} \exp\left[ -\left(\frac{\sqrt{a}}{x} - x\sqrt{b}\right)^2 \right] dx = \sqrt{\frac{\pi}{4a}}
@@ -266,10 +262,10 @@ The closed-form solution is:
 \begin{equation}
 \int_{0}^{\infty} u^{-3/2} \exp\left(-\frac{a}{u} - bu\right) du = \sqrt{\frac{\pi}{a}} e^{-2\sqrt{ab}}
 \end{equation}
-Given the constant $\sqrt{\frac{\gamma}{2\pi}}$ and parameters $a = \frac{\gamma}{2}, b = -it$:
+Given the constant $\sqrt{\dfrac{\gamma}{2\pi}}$ and parameters $a = \dfrac{\gamma}{2}, b = -it$:
 \begin{align}
 \phi_Y(t) &= e^{i\delta t} \sqrt{\frac{\gamma}{2\pi}} \left( \sqrt{\frac{\pi}{\gamma/2}} \exp\left(-2\sqrt{\frac{\gamma}{2}(-it)}\right) \right) \\
-\phi_Y(t) &= e^{i\delta t} \sqrt{\frac{\gamma}{2\pi}} \sqrt{\frac{2\pi}{\gamma}} \exp\left(-\sqrt{-2i\gamma t}\right) \\
+% \phi_Y(t) &= e^{i\delta t} \sqrt{\frac{\gamma}{2\pi}} \sqrt{\frac{2\pi}{\gamma}} \exp\left(-\sqrt{-2i\gamma t}\right) \\
 \phi_Y(t) &= \exp\left(i\delta t - \sqrt{-2i\gamma t}\right)
 \end{align}
 Ultimately we get the characteristic function of a Levy random variable as:
@@ -336,16 +332,13 @@ We define the normalized sum $Z_n = \frac{1}{n^2} \sum_{j=1}^n Y_j$. The charact
 \begin{align}
 \phi_{Z_n}(t) &= \left[ \phi_Y\left( \frac{t}{n^2} \right) \right]^n \\
 &= \left[ \exp\left( -\sqrt{-2i\gamma \frac{t}{n^2}} \right) \right]^n \\
-&= \exp\left( -n \frac{\sqrt{-2i\gamma t}}{n} \right) \\
+% &= \exp\left( -n \frac{\sqrt{-2i\gamma t}}{n} \right) \\
 &= \exp\left( -\sqrt{-2i\gamma t} \right)
 \end{align}
-Thus, for any $n$, $\phi_{Z_n}(t) = \phi_{Z_\infty}(t) = \exp\left( -\sqrt{-2i\gamma t} \right)$.
-
-To find the PDF $f_{Z_\infty}(z)$, we use the inversion formula:
+Thus, for any $n$, $\phi_{Z_n}(t) = \phi_{Z_\infty}(t) = \exp\left( -\sqrt{-2i\gamma t} \right)$. To find the PDF $f_{Z_\infty}(z)$, we use the inversion formula:
 \begin{equation}
 f_{Z_\infty}(z) = \frac{1}{2\pi} \int_{-\infty}^{\infty} e^{-itz} \phi_{Z_\infty}(t) dt = \frac{1}{2\pi} \int_{-\infty}^{\infty} e^{-itz} e^{-\sqrt{-2i\gamma t}} dt
 \end{equation}
-
 This integral can be solved using a contour in the complex plane (Bromwich integral) or by recognizing it as a known Laplace transform pair. Let $s = -it$, then the integral takes the form of the inverse Laplace transform:
 \begin{equation}
 f_{Z_\infty}(z) = \mathcal{L}^{-1} \left\{ e^{-\sqrt{2\gamma s}} \right\}
@@ -375,12 +368,12 @@ Before we delve into the path integral formulation for a general stochastic proc
 \begin{equation}P[X] \propto \exp\left( -\frac{1}{2} \int_0^T dt \int_0^T dt' (X(t) - \mu(t)) C^{-1}(t, t') (X(t') - \mu(t')) \right)\end{equation}
 where $C^{-1}(t, t')$ is the inverse of the covariance function. This expression can be derived from the properties of Gaussian distributions and serves as a starting point for understanding how to construct the action functional for more general stochastic processes.
 
-To derive the probability distribution for correlated variables from scratch, we start with the simplest case (independent variables) and use a \textbf{linear transformation} to ``mix'' them. This is the most intuitive way to see where the covariance matrix $C$ and its inverse $C^{-1}$ actually come from.
+To derive the probability distribution for correlated variables from scratch, we start with the simplest case (independent variables) and use a linear transformation to ``mix'' them. This is the most intuitive way to see where the covariance matrix $C$ and its inverse $C^{-1}$ actually come from.
 Suppose we have a set of $n$ independent Gaussian random variables $Z_1, Z_2, \dots, Z_n$, each with mean $0$ and variance $1$. Their joint probability is simply the product of $n$ standard normals:
 \begin{equation}
 P(\mathbf{z}) = \prod_{i=1}^n \frac{1}{\sqrt{2\pi}} \exp\left( -\frac{z_i^2}{2} \right) = \frac{1}{(2\pi)^{n/2}} \exp\left( -\frac{1}{2} \mathbf{z}^T \mathbf{z} \right)
 \end{equation}
-Here, the variables are uncorrelated. The ``covariance matrix'' is just the identity matrix $\mathbf{I}$. To create \textbf{correlated} variables $X$, we define a linear transformation:
+Here, the variables are uncorrelated. The ``covariance matrix'' is just the identity matrix $\mathbf{I}$. To create \textit{correlated} variables $X$, we define a linear transformation:
 \begin{equation}
 \mathbf{x} = \mathbf{A}\mathbf{z} + \boldsymbol{\mu}
 \end{equation}
@@ -421,7 +414,7 @@ Using this we arrive at the final expression for the probability density functio
 
 \subsection{Onsager-Machlup Functional}
 
-The \textbf{Onsager-Machlup functional} is essentially the ``Lagrangian'' for a stochastic process. Just as classical mechanics uses a Lagrangian to find the path of least action, stochastic mechanics uses this functional to find the \textbf{most probable path} a system will take.
+The \textbf{Onsager-Machlup functional} is essentially the ``Lagrangian'' for a stochastic process. Just as classical mechanics uses a Lagrangian to find the path of least action, stochastic mechanics uses this functional to find the most probable path a system will take.
 
 Consider a particle governed by a Langevin equation with a deterministic force $f(x)$ (such as a gradient $-\nabla V$) and Gaussian white noise $\eta(t)$:
 \begin{equation}
@@ -441,59 +434,51 @@ When we plug this into the noise probability functional, we get the core of the 
 \begin{equation}
 P[x] \propto \mathcal{J} \exp\left( -\frac{1}{4D} \int_0^T (\dot{x} - f(x))^2 \, dt \right)
 \end{equation}
-
-Because we changed variables from a function $\eta(t)$ to a function $x(t)$, we must include a \textbf{functional Jacobian}. In stochastic calculus, this term depends on the discretization (Itô vs. Stratonovich). For the standard Itô interpretation, the result is:
+Because we changed variables from a function $\eta(t)$ to a function $x(t)$, we must include a functional Jacobian. In stochastic calculus, this term depends on the discretization (Itô vs. Stratonovich). For the standard Itô interpretation, the result is:
 \begin{equation}
-L(x, \dot{x}) = \frac{1}{4D} (\dot{x} - f(x))^2 + \frac{1}{2} \nabla f(x)
+L(x, \dot{x}) = \frac{1}{4D} (\dot{x} - f(x))^2 + \frac{1}{2} \nabla f(x).
 \end{equation}
 The final probability functional for the path is:
 \begin{equation}
-P[x] \propto \exp\left( -\int_0^T \left[ \frac{(\dot{x} - f(x))^2}{4D} + \frac{1}{2} \nabla f(x) \right] dt \right)
+P[x] \propto \exp\left( -\int_0^T \left[ \frac{(\dot{x} - f(x))^2}{4D} + \frac{1}{2} \nabla f(x) \right] dt \right).
 \end{equation}
-
-\begin{itemize}
-    \item \textbf{The Most Probable Path:} If you want to know the most likely way a protein folds or a chemical reaction occurs, you minimize the integral of this functional (the ``Action'').
-    \item \textbf{Transition Paths:} It allows us to calculate the probability of rare events, like a particle jumping over a high energy barrier.
-    \item \textbf{Connection to Physics:} The term $(\dot{x} - f(x))^2$ is physically the ``extra'' work or dissipation required to deviate from the natural force $f(x)$.
-\end{itemize}
-
-\subsection{Path integral for Gaussian processes}
-The path integral formulation for this Gaussian process can be derived by considering the probability of a particular path $X(t)$ given the noise $\eta(t)$ and integrating over all possible noise realizations. This leads to the expression for the probability density functional in terms of the action functional $S[X]$:
+This expression for the probability density functional can also be reinterpreted in terms of the Action functional $S[X]$:
 \begin{equation}P[X] \propto \exp\left( -S[X] \right)\end{equation}
 where the action functional $S[X]$ is given by:
-\begin{equation}S[X] = \frac{1}{2} \int_0^T dt \int_0^T dt' (X(t) - \mu(t)) C^{-1}(t, t') (X(t') - \mu(t'))\end{equation}
-This action functional captures the dynamics of the Gaussian process and serves as the basis for computing various quantities of interest, such as transition probabilities, correlation functions, and response functions, by integrating over the space of all possible paths $X(t)$ weighted by $e^{-S[X]}$.
-
-The probability of a stochastic trajectory $x(t)$ in the interval $[0, T]$ is determined by the \textbf{Action Functional} $S[x]$. The relationship between the Action and the \textbf{Onsager-Machlup Lagrangian} $L(x, \dot{x})$ is given by the integral:
 \begin{equation}
-S[x] = \int_0^T L(x(t), \dot{x}(t)) \, dt
+S[x] = \int_0^T L(x(t), \dot{x}(t)) \, dt.
 \end{equation}
 For a system governed by $\dot{x} = f(x) + \sqrt{2D}\eta(t)$, the explicit form is:
 \begin{equation}
-S[x] = \int_0^T \left[ \frac{(\dot{x} - f(x))^2}{4D} + \frac{1}{2} \nabla f(x) \right] dt
+S[x] = \int_0^T \left[ \frac{(\dot{x} - f(x))^2}{4D} + \frac{1}{2} \nabla f(x) \right] dt.
 \end{equation}
 The path $x^*(t)$ that minimizes this Action:
 \begin{equation}
-\frac{\delta S}{\delta x} = 0.
+\frac{\delta S}{\delta x} = 0
 \end{equation}
-defines the \textbf{Most Probable Path} of the system. This path represents the trajectory that requires the ``least effort'' from the thermal noise to deviate the particle from its deterministic force field. The minimization of the action results in Euler-Lagrange equations that govern the dynamics of the most probable path and is given by:
-\begin{equation}\frac{d}{dt} \left( \frac{\partial L}{\partial \dot{x}} \right) - \frac{\partial L}{\partial x} = 0.\end{equation}
-This framework allows us to analyze the behavior of stochastic systems, compute transition probabilities, and understand the dynamics of rare events by studying the most probable paths that the system can take under the influence of noise.
+defines the \textit{most probable path} of the system. This path represents the trajectory that requires the ``least effort'' from the thermal noise to deviate the particle from its deterministic force field. The minimization of the action results in Euler-Lagrange equations that govern the dynamics of the most probable path and is given by:
+\begin{equation}\frac{d}{dt} \left( \frac{\partial L}{\partial \dot{x}} \right) - \frac{\partial L}{\partial x} = 0.
+\end{equation}
+The Onsager-Machlup theory allows us to analyze the behavior of stochastic systems, compute transition probabilities, and understand the dynamics of rare events by studying the most probable paths that the system can take under the influence of noise.
+% \begin{itemize}
+%     \item \textbf{Most probable path:} If you want to know the most likely way a protein folds or a chemical reaction occurs, you minimize the integral of this functional (the ``Action'').
+%     \item \textbf{Transition paths:} It allows us to calculate the probability of rare events, like a particle jumping over a high energy barrier.
+%     \item \textbf{Connection to physics:} The term $(\dot{x} - f(x))^2$ is physically the ``extra'' work or dissipation required to deviate from the natural force $f(x)$.
+% \end{itemize}
 
 \subsubsection*{Example: Harmonic Potential}
 
-To derive the probability distribution for a particle in a harmonic potential $V(X) = \frac{1}{2}kX^2$ from scratch, we must solve the path integral for the \textbf{Ornstein-Uhlenbeck process}. 
+To derive the probability distribution for a particle in a harmonic potential $V(X) = \dfrac{1}{2}kX^2$ from scratch, we must solve the path integral for the Ornstein-Uhlenbeck process.
 
-Because the Action is quadratic in $X$ and $\dot{X}$, the path integral is dominated by the \textbf{classical path} (the most probable path) that minimizes the action.
+Because the Action is quadratic in $X$ and $\dot{X}$, the path integral is dominated by the classical path (the most probable path) that minimizes the action.
 For a force $f(X) = -kX$, the Onsager-Machlup Lagrangian is:
 \begin{equation}
 L(X, \dot{X}) = \frac{(\dot{X} + kX)^2}{4D}
 \end{equation}
-(Note: We ignore the constant Jacobian term $\frac{k}{2}$ for now as it affects only the normalization $\mathcal{N}$). The Action $S[X]$ is:
+(Note: We ignore the constant Jacobian term $\dfrac{k}{2}$ for now as it affects only the normalization $\mathcal{N}$). The Action $S[X]$ is:
 \begin{equation}
 S[X] = \int_0^T \frac{(\dot{X} + kX)^2}{4D} dt = \frac{1}{4D} \int_0^T (\dot{X}^2 + 2kX\dot{X} + k^2 X^2) dt
 \end{equation}
-
 The term $2kX\dot{X}$ can be written as a total derivative:
 \begin{equation}
 2kX\frac{dX}{dt} = k \frac{d}{dt}(X^2)
@@ -506,7 +491,6 @@ The Action becomes:
 \begin{equation}
 S[X] = \frac{k(X_T^2 - X_0^2)}{4D} + \frac{1}{4D} \int_0^T (\dot{X}^2 + k^2 X^2) dt
 \end{equation}
-
 The path that minimizes the integral $\int (\dot{X}^2 + k^2 X^2) dt$ must satisfy:
 \begin{equation}
 \frac{d}{dt}\left(\frac{\partial L}{\partial \dot{X}}\right) - \frac{\partial L}{\partial X} = 0 \implies \ddot{X} - k^2 X = 0
@@ -533,14 +517,13 @@ The transition probability is $P(X_T, T | X_0, 0) \propto \exp(-S[X^*])$. Includ
 \begin{equation}
 P(X_T, T | X_0, 0) = \sqrt{\frac{k}{2\pi D(1 - e^{-2kT})}} \exp\left( -\frac{k(X_T - X_0 e^{-kT})^2}{2D(1 - e^{-2kT})} \right).
 \end{equation}
-
 A simple example when the potential is zero ($k=0$) gives us the free particle case:
 \begin{equation}P(X_T, T | X_0, 0) = \frac{1}{\sqrt{4\pi D T}} \exp\left( -\frac{(X_T - X_0)^2}{4D T} \right)\end{equation}
 This is the well-known result for a free particle undergoing Brownian motion, where the transition probability is given by a Gaussian distribution. This illustrates how the path integral formulation can be used to derive transition probabilities for stochastic processes, and how it can be applied to more complex systems by incorporating potential functions and interactions.
 
 \subsection{Fokker-Planck equation from Path Integral}
 
-To arrive at the \textbf{Fokker-Planck equation} from the path integral $P[X] \propto \exp(-S[X])$, we use the \textbf{Schr\"{o}dinger-like evolution} of the probability density. The transition probability $P(x, t+\Delta t | x', t)$ acts as a propagator that moves the distribution forward by an infinitesimal time step $\Delta t$.
+To arrive at the Fokker-Planck equation from the path integral $P[X] \propto \exp(-S[X])$, we use the spato-temporal evolution of the probability density. The transition probability $P(x, t+\Delta t | x', t)$ acts as a propagator that moves the distribution forward by an infinitesimal time step $\Delta t$.
 
 The probability density $P(x, t+\Delta t)$ is related to the density at the previous time step $P(x', t)$ by integrating over all possible starting positions $x'$ (also known as the Chapman-Kolmogorov equation):
 \begin{equation}
@@ -572,9 +555,9 @@ P(x, t+\Delta t) = \int G(\xi) \left[ P(x,t) - \xi \frac{\partial P}{\partial x}
 
 We evaluate the integral term-by-term using Gaussian moments $\langle 1 \rangle = 1$, $\langle \xi \rangle = f(x)\Delta t$, and $\langle \xi^2 \rangle = 2D\Delta t$:
 \begin{itemize}
-    \item \textbf{Term A:} $\int G(\xi) P(x,t) d\xi = P(x,t)$
-    \item \textbf{Term B:} $-\int \xi G(\xi) \frac{\partial P}{\partial x} d\xi = -f(x)\Delta t \frac{\partial P}{\partial x}$
-    \item \textbf{Term C:} $\int \frac{\xi^2}{2} G(\xi) \frac{\partial^2 P}{\partial x^2} d\xi = D\Delta t \frac{\partial^2 P}{\partial x^2}$
+    \item \textit{Term 1:} $\int G(\xi) P(x,t) d\xi = P(x,t)$
+    \item \textit{Term 2:} $-\int \xi G(\xi) \frac{\partial P}{\partial x} d\xi = -f(x)\Delta t \dfrac{\partial P}{\partial x}$
+    \item \textit{Term 3:} $\int \dfrac{\xi^2}{2} G(\xi) \dfrac{\partial^2 P}{\partial x^2} d\xi = D\Delta t \dfrac{\partial^2 P}{\partial x^2}$
 \end{itemize}
 Summing these results gives the evolution to order $\Delta t$:
 \begin{equation}
